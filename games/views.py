@@ -168,6 +168,10 @@ class ListAllScores(generics.ListAPIView):
         source_site = normalize_frontend_site(self.request.query_params.get("source_site"))
         game = Game.objects.filter(name=game_name).first()
         queryset = Score.objects.all()
+        print("the game is", game)
+        print("the source_site is", source_site)
+        if not game or not source_site:
+            return queryset.order_by("-score")
         if game:
             queryset = queryset.filter(game=game)
         if source_site:
